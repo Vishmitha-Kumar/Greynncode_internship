@@ -1,0 +1,50 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+class Scheduler
+{
+public int leastInterval(char[] tasks, int n) {
+   int[] char_map=new int[26];
+   for(char c: tasks)
+   {
+       char_map[c-'A']++;
+   }
+   Arrays.sort(char_map);
+   int max_val = char_map[25]-1;
+   int idle_slots= max_val*n;
+
+   for(int i=24;i>=0;i--)
+   {
+       idle_slots -= Math.min(char_map[i],max_val);
+   }
+   return idle_slots > 0? idle_slots + tasks.length : tasks.length;
+
+}
+}
+public class TASKSCHEDULER {
+    public static void main(String[] args)
+    {
+        Scanner sc=new Scanner(System.in);
+        System.out.print("-----------------------");
+        System.out.print("TASKSCHEDULER");
+        System.out.println("-----------------------");
+               System.out.print("Enter the size of the character array: ");
+        int size = sc.nextInt();
+
+        if (size <= 0) {
+            System.out.println("Invalid size. Please enter a size greater than 0.");
+            return; 
+        }
+        char[] tasks = new char[size];
+        System.out.print("Enter the characters for the array: ");
+        for (int i = 0; i < size; i++) {
+            tasks[i] = sc.next().charAt(0);
+        }
+        System.out.print("Enter the cooldown period: ");
+        int n = sc.nextInt();
+
+       Scheduler s=new Scheduler();
+       int result = s.leastInterval(tasks,n);
+       System.out.println("Minimum time to execute tasks: " + result);
+    }
+}
