@@ -1,0 +1,60 @@
+import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
+
+
+public class QUIZTIMER {
+    private static Timer timer;
+    private static int timeLimitInSeconds = 30; // Set the time limit for the quiz
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Questions and answers
+        String[] questions = {
+            "What is the capital of France?",
+            "What is the largest planet in our solar system?",
+            "Who wrote 'Romeo and Juliet'?"
+        };
+
+        String[] answers = {"Paris", "Jupiter", "William Shakespeare"};
+
+        // Start the timer
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            int timeRemaining = timeLimitInSeconds;
+
+            @Override
+            public void run() {
+                if (timeRemaining > 0) {
+                    System.out.print(  timeRemaining +" ");
+                    timeRemaining--;
+                } else {
+                    System.out.println("Time's up! Quiz ends.");
+                    timer.cancel();
+                    scanner.close();
+                    System.exit(0);
+                }
+            }
+        }, 0, 1000); // Schedule the task to run every 1000 milliseconds (1 second)
+
+        // Start the quiz
+        for (int i = 0; i < questions.length; i++) {
+            System.out.println("Question " + (i + 1) + ": " + questions[i]);
+            String userAnswer = scanner.nextLine();
+
+            if (userAnswer.equalsIgnoreCase(answers[i])) {
+                System.out.println("Correct!\n");
+            } else {
+                System.out.println("Incorrect. The correct answer is: " + answers[i] + "\n");
+            }
+        }
+
+        // End of quiz
+        System.out.println("Quiz completed! Thank you for participating.");
+        timer.cancel();
+        scanner.close();
+    }
+}
+
+
